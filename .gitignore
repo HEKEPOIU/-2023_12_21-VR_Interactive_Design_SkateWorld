@@ -20,7 +20,7 @@
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
-
+.idea/.idea.[2023_12_21]VR_Interactive_Design_SkateWorld/.idea/git_toolbox_prj.xml
 *.user
 [Bb]in/
 [Oo]bj/
