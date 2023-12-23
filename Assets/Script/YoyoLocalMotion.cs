@@ -9,7 +9,8 @@ public class YoyoLocalMotion : MonoBehaviour
     [SerializeField] private Vector3 _target = new Vector3(0, 0, 1);
     [SerializeField] private Ease _ease = Ease.Linear;
     [SerializeField] private bool _local = true;
-    void Start()
+
+    private void Start()
     {
         if (_local)
         {
@@ -19,6 +20,11 @@ public class YoyoLocalMotion : MonoBehaviour
         {
             transform.DOMove(_target, _time).SetLoops(-1, LoopType.Yoyo).SetEase(_ease);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        transform.DOKill(true);
     }
 
 

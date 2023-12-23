@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,4 +15,8 @@ public class RotationMovement : MonoBehaviour
             .SetLoops(-1, LoopType.Incremental).SetEase(_ease);
     }
 
+    private void OnDestroy()
+    {
+        transform.DOKill(true);
+    }
 }
