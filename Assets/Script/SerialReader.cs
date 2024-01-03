@@ -2,10 +2,13 @@
 using System.IO.Ports;
 using System.Threading;
 using Singleton;
+using UnityEngine;
+
 public class SerialReader : PersistentSingleton<SerialReader>
 {
     //COM改成自己，後面數字跟Arduino一樣。
-    private readonly SerialPort _serialPort = new SerialPort("COM5", 115200);
+    [SerializeField] private string _portName = "COM5";
+    private SerialPort _serialPort;
     private Thread _readThread;
     public event Action<string> OnDataReceived;
 
@@ -16,6 +19,8 @@ public class SerialReader : PersistentSingleton<SerialReader>
         {
             return;
         }
+
+        _serialPort = new SerialPort(_portName, 115200);
         _readThread = new Thread(ReadSerial);
         _readThread.Start();
     }
