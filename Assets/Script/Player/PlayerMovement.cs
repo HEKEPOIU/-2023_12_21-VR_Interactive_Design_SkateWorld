@@ -19,6 +19,8 @@ namespace Player
         private float _rotation = 0;
         private float _speed;
         private float _boostPercent = 0;
+        private Vector3 _startPosition;
+        private Vector3 _startRotation;
         
         private bool _isMoveAble = false;
         public event Action Ontend;
@@ -35,6 +37,8 @@ namespace Player
         {
             _controller = GetComponent<CharacterController>();
             SerialReader.Instance.OnDataReceived += ReadSensorData;
+            _startPosition = transform.position;
+            _startRotation = transform.rotation.eulerAngles;
         }
 
 
@@ -139,6 +143,13 @@ namespace Player
         public void SetMoveAble(bool isMoveAble)
         {
             _isMoveAble = isMoveAble;
+        }
+        
+        public void ResetPosition()
+        {
+            print("ResetPosition");
+            transform.position = _startPosition;
+            transform.rotation = Quaternion.Euler(_startRotation);
         }
     }
     

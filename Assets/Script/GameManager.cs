@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public enum GameState
 {
+    Tutorial,
     Start,
     Game,
     GameOver
@@ -15,7 +16,7 @@ public enum GameState
 public class GameManager : Singleton<GameManager>
 {
     
-    private GameState _gameState = GameState.Start;
+    private GameState _gameState = GameState.Tutorial;
     [SerializeField] private Timer _gameTimer;
     
 

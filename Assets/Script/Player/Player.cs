@@ -45,33 +45,34 @@ namespace Player
 
         private void Update()
         {
-            if (_gameState == GameState.GameOver)
+            _currentInputColdDown += Time.deltaTime;
+
+            if (_playerTend != true) return;
+            if (_gameState == GameState.Tutorial)
             {
-                _currentInputColdDown += Time.deltaTime;
+                _playerHUD.SwitchTutorialPanel();
             }
-            
-            if (_playerTend == true )
+            else if (_gameState == GameState.Start)
             {
-                if (_gameState == GameState.Start)
-                {
-                    BaseMediator.Instance.Broadcast("StartGame");
-                }
-                else if(_gameState == GameState.GameOver)
-                {
-                    BaseMediator.Instance.Broadcast("RestartGame");
-                }
-                _playerTend = false;
+                BaseMediator.Instance.Broadcast("StartGame");
             }
+            else if(_gameState == GameState.GameOver)
+            {
+                BaseMediator.Instance.Broadcast("RestartGame");
+            }
+            _playerTend = false;
         }
 
         private void PlayerTend()
         {
-            if (_gameState == GameState.Start)
+            if ((_gameState == GameState.Start || _gameState == GameState.Tutorial)
+                && _currentInputColdDown >= _inputColdDown)
             {
+                _currentInputColdDown = 0;
                 _playerTend = true;
             }
 
-            if (_gameState == GameState.GameOver && _currentInputColdDown >= _inputColdDown)
+            else if (_gameState == GameState.GameOver && _currentInputColdDown >= _inputColdDown)
             {
                 _currentInputColdDown = 0;
                 _playerTend = true;
@@ -81,6 +82,7 @@ namespace Player
 
         private void ChangePlayerState(GameState newGameState)
         {
+            _currentInputColdDown = 0;
             _gameState = newGameState;
             switch (_gameState)
             {
@@ -93,6 +95,7 @@ namespace Player
                 case GameState.GameOver:
                     PlayerMovement.SetMoveAble(false);
                     PlayerHUD.OnGameOver(PlayerState.Coins);
+                    PlayerMovement.ResetPosition();
                     break;
                 default:
                     break;
